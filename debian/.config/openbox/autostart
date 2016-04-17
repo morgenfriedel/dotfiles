@@ -1,0 +1,5 @@
+!# /bash/sh
+xrandr --output Virtual1 --mode 1360x768
+conky &
+tint2 &
+exit 0
