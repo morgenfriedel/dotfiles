@@ -1,0 +1,131 @@
+tion
+#
+# The list of variables has been removed from this file in favour
+# of keeping the documentation more maintainable.
+# Check http://conky.sf.net for an up-to-date-list.
+#
+# For ideas about how to modify conky, please see:
+# http://crunchbanglinux.org/forums/topic/59/my-conky-config/
+#
+# For help with conky, please see:
+# http://crunchbanglinux.org/forums/topic/2047/conky-help/
+#
+# Enjoy! :)
+##############################################
+# Settings
+##############################################
+background yes
+use_xft yes
+xftfont terminal:size=8
+xftalpha 1
+update_interval 1.0
+total_run_times 0
+own_window yes
+own_window_transparent yes
+##############################################
+# Compositing tips:
+# Conky can play strangely when used with
+# different compositors. I have found the
+# following to work well, but your mileage
+# may vary. Comment/uncomment to suit.
+##############################################
+# custom
+own_window_type panel
+
+## no compositor
+#own_window_type override
+#own_window_argb_visual no
+ 
+## xcompmgr
+own_window_type override
+own_window_argb_visual yes
+ 
+## cairo-compmgr
+#own_window_type desktop
+#own_window_argb_visual yes
+##############################################
+own_window_hints undecorated,above,sticky,skip_taskbar,skip_pager
+double_buffer yes
+minimum_size 160 160
+maximum_width 160
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+default_color 656667
+default_shade_color 000000
+default_outline_color 828282
+alignment top_right
+gap_x 5
+gap_y 2
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+override_utf8_locale no
+
+# custom
+draw_graph_borders yes
+default_color grey
+default_shade_color red
+default_outline_color green
+color0 03cafe
+color1 656667
+##############################################
+#  Output
+##############################################
+TEXT
+${color0}S Y S T E M    I N F O
+${hr}
+${color1}Host:$alignr$nodename
+Uptime:$alignr$uptime
+RAM:$alignr$mem/$memmax
+Swap usage:$alignr$swap/$swapmax
+Disk usage:$alignr${fs_used /}/${fs_size /}
+##CPU usage:$alignr${cpu cpu0}%
+CPU1: ${cpu cpu1}% ${cpubar cpu1}
+CPU2: ${cpu cpu2}% ${cpubar cpu2}
+CPU3: ${cpu cpu3}% ${cpubar cpu3}
+CPU4: ${cpu cpu4}% ${cpubar cpu4}
+
+${color0}N E T W O R K
+${hr}
+${color0}${downspeedgraph wlan0}${color1}
+DLS:${downspeed wlan0} $alignr total: ${totaldown wlan0}
+${color0}${upspeedgraph wlan0}${color1}
+ULS:${upspeed wlan0} $alignr total: ${totalup wlan0}
+ 
+ 
+${color0}S H O R T C U T    K E Y S
+${hr}
+${color1}Alt+F2$alignr Run Dialog
+#Alt+F3$alignr Alt Menu
+#Super+Space$alignr Main Menu
+#Super+Tab$alignr Client Menu
+Super+t$alignr Terminal
+Super+f$alignr File Manager
+Super+e$alignr Editor
+Super+m$alignr Media Player
+Super+w$alignr Web Browser
+Super+l$alignr Lock Screen
+Super+v$alignr Volume Control
+Super+x$alignr Logout
+
+${font sans-serif:bold:size=7}
+${color0}P R O C E S S E S
+${hr}
+${color1}NAME $alignr PID    CPU    MEM
+${top name 1} $alignr ${top pid 1} ${top cpu 1} ${top mem 1}
+${top name 2} $alignr ${top pid 2} ${top cpu 2} ${top mem 2}
+${top name 3} $alignr ${top pid 3} ${top cpu 3} ${top mem 3}
+${top name 4} $alignr ${top pid 4} ${top cpu 4} ${top mem 4}
+${top name 5} $alignr ${top pid 5} ${top cpu 5} ${top mem 5}
+${top name 6} $alignr ${top pid 6} ${top cpu 6} ${top mem 6}
+${top name 7} $alignr ${top pid 7} ${top cpu 7} ${top mem 7}
+${top name 8} $alignr ${top pid 8} ${top cpu 8} ${top mem 8}
+
+${color0}W I R E L E S S
+${hr}
+${color1}${font sans-serif:bold:size=7}ESSID: $alignr ${wireless_essid wlan0} 
+${font sans-serif:bold:size=7}IP address: $alignr ${addr wlan0} 
+${font sans-serif:bold:size=7}MAC: $alignr ${wireless_ap wlan0} 
+
