@@ -9,7 +9,7 @@
 
 ## GNOME Flashback and Desktop Configuration
 
-Gets rid of bloat and installs Gnome Flashback (Compiz) desktop. You will have to manually install Chrome and Sublime Text as well as any addons, plugings, etc.
+Gets rid of bloat and installs Gnome Flashback (Compiz) desktop. You will have to manually install Chrome and Sublime Text as well as any addons, plugins, etc.
 
 `$ sudo apt-get update`
 
