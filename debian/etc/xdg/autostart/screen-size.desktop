@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=ScreenSize
+GenericName=Resolution
+Comment=Sets the monitors resolution
+Exec=/etc/xdg/set_monitor.sh
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
