@@ -1,2 +1,2 @@
-alias pkg="apt-get upgrade;apt-get update"
+alias pkg="apt-get update;apt-get upgrade"
 alias sls="ls -lahi"
