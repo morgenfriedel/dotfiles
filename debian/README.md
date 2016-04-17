@@ -1,2 +1,2 @@
-# dotconfig
-Dotfiles and configuration notes for Ubuntu 14.04 LTS and Debian 8.4 (Stable) distributions of Linux.
+# Debian 8.4 (Stable)
+Dotfiles and configuration notes for Debian 8.4 (Stable).
