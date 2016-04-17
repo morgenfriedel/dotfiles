@@ -29,4 +29,4 @@ Gets rid of bloat and installs Gnome Flashback (Compiz) desktop. You will have t
 
 `$ sudo apt-get update`
 
-Run Compiz Config Settings Manager for ALT+TAB (window management), open Startup Applications to run remove any unnecessary applications and add cairo-dock to run on launch. CTRL+WIN/CMD+Right Click to add/remove Gnome menus, indicators, etc.
+Run Compiz Config Settings Manager for ALT+TAB (window management), open Startup Applications to run remove any unnecessary applications and add cairo-dock to run on launch. ALT+WIN/CMD+Right Click to add/remove Gnome menus, indicators, etc.
