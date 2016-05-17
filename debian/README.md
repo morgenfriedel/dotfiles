@@ -6,7 +6,7 @@ Dotfiles, shell commands and scripts for Debian 8.4.0 complete with configuratio
 
 ```bash
 su
-apt-get install open-box xchat tint2 conky vim menu obmenu
+apt-get install openbox xchat tint2 conky vim menu obmenu git
 apt-get remove evolution evolution-plugins
 exit
 cp /var/lib/openbox/debian-menu.xml ~/.config/openbox/debian-menu.xml
