@@ -1,1 +1,0 @@
-alias sls="ls -lahi"
