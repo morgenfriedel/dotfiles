@@ -8,7 +8,7 @@ The host and VMs require specific configurations for Spice in order to support m
 
 ## Debian
 
-Currently version 9 (stretch) with 2770 packages.
+Currently version 9 (stretch) with 2916 packages.
 
 ```
 * Xfce4
