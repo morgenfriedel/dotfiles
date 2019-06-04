@@ -1,0 +1,187 @@
+NautilusToolbar.titlebar.header-bar .linked.raised .button,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button {
+  border: 1px solid;
+  border-image:none;
+border-color: @borders;
+    border-radius: 3px;
+  transition: all 200ms ease-out;
+  padding: 5px 8px 6px;
+  color: @theme_fg_color;
+  outline-color: rgba(46, 52, 54, 0.3);
+  background-image: linear-gradient(to bottom,
+										rgba(255,255,255, 0.07),
+										rgba(255,255,255, 0.0) 25%,
+										rgba(255,255,255, 0.0)
+										),
+					linear-gradient(to bottom,
+                                      #212121,
+                                      #1f1f1f 40%,
+                                      #191919
+                                      );
+  text-shadow: 0 -1px rgba(0,0,0, 0.96923);
+  icon-shadow: 0 -1px rgba(0,0,0, 0.96923);
+  box-shadow: none }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:hover,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:hover.button.image-button {
+border-image: none;
+    color: shade(@theme_fg_color, 1.12);
+    outline-color: rgba(46, 52, 54, 0.3);
+    border-color: shade(@theme_selected_bg_color, 0.4);
+    background-image: -gtk-gradient (radial,
+										center -0.5, 0,
+										center -0.3, 0.9,
+										from(rgba(255,255,255,0.9)),
+										to(transparent)),
+						linear-gradient(to bottom,
+                                      #16477e,
+                                      #154478 40%,
+                                      #113660
+                                      );
+    background-color: transparent;
+    transition: 250ms ease-in-out;
+    text-shadow: 0 -1px rgba(0,0,0, 0.96923);
+    icon-shadow: 0 -1px rgba(0,0,0, 0.96923);
+    box-shadow: 0 1px 2px 2px rgba(0,0,0,0.2);
+    -gtk-image-effect: highlight; }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button {
+border-image: none;
+    border-radius: 3px;
+    color: shade(@theme_fg_color, 1.2);
+    outline-color: rgba(46, 52, 54, 0.3);
+    border-color: @borders;
+    background-image: linear-gradient(to bottom,
+                                      rgba(0,0,0,0.2),
+                                      rgba(0,0,0,0.0) 25%,
+                                      rgba(0,0,0,0.0)
+                                      ),
+					linear-gradient(to bottom,
+                                      #181818,
+                                      #212121 40%,
+                                      #252525
+                                      );
+    text-shadow: 0 -1px rgba(0,0,0, 0.96923);
+    icon-shadow: 0 -1px rgba(0,0,0, 0.96923);
+    box-shadow: inset 0 1px rgba(0, 0, 0, 0.08), inset 0 2px 1px -2px rgba(0, 0, 0, 0.8), 0 1px alpha(white, 0.2);
+    transition-duration: 50ms; }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:backdrop,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button:backdrop {
+    color: @theme_unfocused_fg_color;
+    border-image:none;
+border-color:@borders;
+    background-image: linear-gradient(to bottom,
+                                      #1f1f1f,
+                                      #1f1f1f 40%,
+                                      #1f1f1f
+                                      );
+    text-shadow: none;
+    icon-shadow: none;
+    box-shadow: inset 0 1px rgba(255, 255, 255, 0), 0 1px rgba(255, 255, 255, 0);
+    -gtk-image-effect: none; }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked:backdrop,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button:backdrop {
+      color: @theme_unfocused_fg_color;
+      border-image: none;
+border-color: @borders;
+      background-image: linear-gradient(to bottom,
+                                      #212121,
+                                      #212121 40%,
+                                      #212121
+                                      );
+      box-shadow: inset 0 1px rgba(255, 255, 255, 0), 0 1px rgba(255, 255, 255, 0); }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button {
+padding: 5px;}
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button {
+padding-bottom: 7px;
+padding-top: 3px;}
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked:backdrop,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button:backdrop,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:backdrop,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button:backdrop,
+NautilusToolbar.titlebar.header-bar .linked.raised .button,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button {
+  border-radius:0px;
+border-width: 1px 0px 1px 0;
+  }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked:backdrop:first-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button:backdrop:first-child,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:backdrop:first-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button:backdrop:first-child,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:first-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button:first-child,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked:first-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button:first-child {
+  border-radius: 3px 0 0 3px;
+border-width: 1px 0 1px 1px;
+border-right-width: 0;
+  }
+
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked:backdrop:last-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button:backdrop:last-child,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:backdrop:last-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button:backdrop:last-child,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:last-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton.button.image-button:last-child,
+NautilusToolbar.titlebar.header-bar .linked.raised .button:checked:last-child,
+NemoToolbar .primary-toolbar.toolbar GtkBox.linked.horizontal.raised GtkButton:checked.button.image-button:last-child {
+  border-radius: 0 3px 3px 0;
+border-width: 1px 1px 1px 0;
+border-left-width: 0; }
+
+/*
+ * Nautilus Trash Buttons Insensitive
+ */
+
+NautilusTrashBar.question GtkButton:insensitive.button.text-button {
+color: shade(@theme_fg_color, 0.6);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+style "delorean-window"
+{
+    bg[NORMAL] = "#1a1a1a"
+    XfceNotifyWindow::border-color = "#7b7b7b"
+    XfceNotifyWindow::border-radius = 5.0
+    XfceNotifyWindow::border-width-hover = 3.0
+    XfceNotifyWindow::border-color-hover =shade(1.8,@selected_bg_color)
+}
+class "XfceNotifyWindow" style "delorean-window"
+
+style "delorean-button" 
+{
+    bg[NORMAL] = "#080808"
+    bg[PRELIGHT] = "#000000"
+    fg[NORMAL] = "#cdcdcd"
+    fg[PRELIGHT] = "#f8f8f8"
+    fg[ACTIVE] = "#f8f8f8"
+    font_name = "7 Bold"
+    engine "pixmap" 
+   {
+	 image
+    {
+      function			= BOX
+      state				= NORMAL
+      file				= "/buttons/button.svg"
+      border			= { 3, 3, 2, 2 }
+      stretch			= TRUE
+    }	
+     image
+    {
+      function			= BOX
+      state				= PRELIGHT
+      file				= "/buttons/button-prelight.svg"
+      border			= { 3, 3, 2, 2 }
+      stretch			= TRUE
+    }  
+    image
+    {
+      function			= BOX
+      state				= ACTIVE
+      file				= "/buttons/button-active.svg"
+      border			= { 3, 3, 2, 2 }
+      stretch			= TRUE
+    }
+   }
+}
+widget_class "XfceNotifyWindow.*<GtkButton>" style "delorean-button"
+widget_class "XfceNotifyWindow.*<GtkButton>*<GtkLabel>*" style:highest "delorean-button"
+
+style "delorean-text"
+{
+    fg[NORMAL] 				= "#7b7b7b"
+    GtkWidget::link-color 	= "#006aa8"
+}
+widget_class "XfceNotifyWindow.*.<GtkLabel>" style "delorean-text"
+
+style "delorean-summary"
+{
+	fg[NORMAL] 			= shade(1.8,@selected_bg_color)
+    font_name 			= "Bold"
+}
+widget "XfceNotifyWindow.*.summary" style "delorean-summary"

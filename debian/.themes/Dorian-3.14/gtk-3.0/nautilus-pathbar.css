@@ -1,0 +1,515 @@
+/*****************PathBar Linked Buttons**************************/
+
+NautilusPathBar.linked.path-bar GtkButton.button,
+NautilusPathBar.linked.path-bar .button.text-button,
+NautilusPathBar .button.text-button {
+    color: shade(@theme_fg_dark_color, 0.90);
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: none;
+    border-right-width: 0px;
+    border-left-width:  0px;
+    border-radius: 0;
+    background-color:shade(@theme_bg_color, 0.7);
+    background-image: url("assets/pathbar-carrot-dummy.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
+	/* border and inset */
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+			    -1px 0    alpha(white, 0.01) inset;
+    transition: 60ms ease-out;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop,
+NautilusPathBar.linked.path-bar .button.text-button:backdrop,
+NautilusPathBar .button.text-button:backdrop {
+    color: shade(@theme_unfocused_fg_color, 0.54);
+    text-shadow: none;
+    icon-shadow: none;
+    box-shadow:              0    1px alpha(black, 0.26) inset,
+				  0   -1px alpha(black, 0.12) inset,
+			    -1px  0   alpha(white, 0.01) inset;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:hover,
+NautilusPathBar.linked.path-bar GtkButton.button:first-child:hover,
+NautilusPathBar.linked.path-bar GtkButton.button:last-child:hover,
+NautilusPathBar.linked.path-bar .button.text-button:hover,
+NautilusPathBar.linked .button.text-button:hover:first-child,
+NautilusPathBar.linked .button.text-button:hover:last-child,
+NautilusPathBar.linked .button.text-button:hover:only-child {
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-right-width: 0px;
+    border-left-width:  0px;
+    border-radius: 0;
+    border-image: none;
+    background-image: 	url("assets/pathbar-carrot-dummy.png"),
+			linear-gradient(to bottom,
+										shade(@theme_selected_bg_color, 1.04),
+										shade(@theme_selected_bg_color, 0.98)
+										);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.18) inset;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:first-child:hover,
+NautilusPathBar.linked .button.text-button:hover:first-child {
+
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-right-width: 0px;
+    border-left-width:  0px;
+
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+
+    border-image: none;
+    background-image: 	url("assets/pathbar-carrot-dummy.png"),
+			linear-gradient(to bottom,
+										shade(@theme_selected_bg_color, 1.04),
+										shade(@theme_selected_bg_color, 0.98)
+										);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.18) inset;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:last-child:hover,
+NautilusPathBar.linked .button.text-button:hover:last-child {
+
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-right-width: 0px;
+    border-left-width:  0px;
+
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+
+    border-image: none;
+    background-image: 	url("assets/pathbar-carrot-dummy.png"),
+			linear-gradient(to bottom,
+										shade(@theme_selected_bg_color, 1.04),
+										shade(@theme_selected_bg_color, 0.98)
+										);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.18) inset;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover,
+NautilusPathBar.linked.path-bar GtkButton.button:hover:active:backdrop,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:first-child,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:active:first-child,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:last-child,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:active:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover,
+NautilusPathBar.linked .button.text-button:backdrop:hover:active,
+NautilusPathBar.linked .button.text-button:backdrop:hover:first-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:active:first-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:active:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:only-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:active:only-child,
+NautilusPathBar .button.text-button:backdrop:hover,
+NautilusPathBar .button.text-button:backdrop:hover:active {
+    color: shade(@theme_unfocused_fg_color, 1.26);
+    background-image: none;
+    background-color: @theme_unfocused_selected_bg_color;
+    box-shadow:              0    1px alpha(black, 0.26) inset,
+				  0   -1px alpha(black, 0.12) inset,
+			    -1px  0   alpha(white, 0.01) inset;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:active,
+NautilusPathBar.linked.path-bar GtkButton:checked.button,
+NautilusPathBar.linked .button.text-button:active,
+NautilusPathBar.linked .button:checked.text-button{
+    border-radius: 5px;
+    border-width: 0px;
+    border-right-width: 0px;
+    border-left-width:  0px;
+    border-radius: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-image: none;
+    background-color: alpha(black,0.46);
+    background-image: 	url("assets/pathbar-carrot.png"),
+			linear-gradient(to bottom,
+                                    shade(@theme_bg_color, 0.7),
+                                    shade(@theme_bg_color, 0.7)
+                                    );
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+	color: @theme_selected_bg_color;
+	transition: 60ms ease-out;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:checked,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:checked:first-child,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:hover:checked:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:checked,
+NautilusPathBar.linked .button.text-button:backdrop:hover:checked:first-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:checked:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:hover:checked:only-child,
+NautilusPathBar .button.text-button:backdrop:hover:active {
+    background-image: 	url("assets/pathbar-carrot-backdrop.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(black, 0.12) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+	color: black;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:checked,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:checked:first-child,
+NautilusPathBar.linked.path-bar GtkButton.button:backdrop:checked:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:checked,
+NautilusPathBar.linked .button.text-button:backdrop:checked:first-child,
+NautilusPathBar.linked .button.text-button:backdrop:checked:last-child,
+NautilusPathBar.linked .button.text-button:backdrop:checked:only-child,
+NautilusPathBar .button.text-button:backdrop:active {
+    background-image: 	url("assets/pathbar-carrot-backdrop.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(black, 0.12) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+	
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:checked:hover,
+NautilusPathBar.linked .button.text-button:checked:hover {
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: none;
+    border-right-width: 0px;
+    border-left-width:  0px;
+    border-radius: 0;
+    background-color: transparent;
+    background-image: 	url("assets/pathbar-carrot.png"),
+			linear-gradient(to bottom,
+										shade(@theme_selected_bg_color, 1.14),
+										shade(@theme_selected_bg_color, 1.08)
+										);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.14) inset;
+	color: black;
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:active,
+NautilusPathBar.linked.path-bar GtkButton.button:active:hover,
+NautilusPathBar.linked .button.text-button:active,
+NautilusPathBar.linked .button.text-button:active:hover,
+NautilusPathBar.linked.path-bar GtkButton.button:checked,
+NautilusPathBar.linked.path-bar GtkButton.button:checked:hover,
+NautilusPathBar.linked .button.text-button:checked,
+NautilusPathBar.linked .button.text-button:checked:hover {
+    text-shadow: 0px -1px alpha(white, 0.06);
+    
+}
+
+NautilusPathBar.linked.path-bar GtkButton.button:insensitive,
+NautilusPathBar.linked .button.text-button:insensitive{
+    border-radius: 7px;
+    border-width: 0px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: none;
+    background-color: shade(@theme_bg_color, 0.7);
+    background-image: 	url("assets/stripe-3.png");
+    background-repeat: repeat;
+    background-position: top left;
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+	
+    
+}
+
+/* Middle toolbar-button */
+NautilusPathBar.linked .button.text-button,
+NautilusPathBar.linked .button.text-button:hover,
+NautilusPathBar.linked .button.text-button:hover:focus,
+NautilusPathBar.linked .button.text-button:active,
+NautilusPathBar.linked .button.text-button:active:hover,
+NautilusPathBar.linked .button.text-button:checked,
+NautilusPathBar.linked .button.text-button:checked:hover,
+NautilusPathBar.linked .button.text-button:insensitive,
+NautilusPathBar.linked .button.text-button:focus,
+NautilusPathBar.linked .button.text-button:active:focus,
+NautilusPathBar.linked GtkButton.button,
+NautilusPathBar.linked GtkButton.button:hover,
+NautilusPathBar.linked GtkButton.button:hover:focus,
+NautilusPathBar.linked GtkButton.button:active,
+NautilusPathBar.linked GtkButton.button:active:hover,
+NautilusPathBar.linked GtkButton.button:checked,
+NautilusPathBar.linked GtkButton.button:checked:hover,
+NautilusPathBar.linked GtkButton.button:insensitive,
+NautilusPathBar.linked GtkButton.button:focus,
+NautilusPathBar.linked GtkButton.button:active:focus {
+    border-right-width: 0px;
+    border-left-width:  0px;
+    border-radius: 0;
+    border-image: none;
+}
+
+/* Leftmost toolbars-button */
+NautilusPathBar.linked .button.text-button:first-child,
+NautilusPathBar.linked .button.text-button:hover:first-child,
+NautilusPathBar.linked .button.text-button:active:first-child,
+NautilusPathBar.linked .button.text-button:active:hover:first-child,
+NautilusPathBar.linked .button.text-button:checked:first-child,
+NautilusPathBar.linked .button.text-button:checked:hover:first-child,
+NautilusPathBar.linked .button.text-button:focus:first-child,
+NautilusPathBar.linked .button.text-button:active:focus:first-child,
+NautilusPathBar.linked .button.text-button:insensitive:first-child,
+NautilusPathBar.linked GtkButton.button:first-child,
+NautilusPathBar.linked GtkButton.button:hover:first-child,
+NautilusPathBar.linked GtkButton.button:active:first-child,
+NautilusPathBar.linked GtkButton.button:active:hover:first-child,
+NautilusPathBar.linked GtkButton.button:checked:first-child,
+NautilusPathBar.linked GtkButton.button:checked:hover:first-child,
+NautilusPathBar.linked GtkButton.button:focus:first-child,
+NautilusPathBar.linked GtkButton.button:active:focus:first-child,
+NautilusPathBar.linked GtkButton.button:insensitive:first-child {
+    border-left-width: 0px;
+    border-right-width: 0;
+    border-radius: 7px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-image: none;
+    box-shadow:                  0   1px alpha(black, 0.26) inset,
+				 0  -1px alpha(white, 0.28) inset,
+				 0   3px alpha(black, 0.08) inset,
+				-1px 0   alpha(white, 0.01) inset;
+}
+
+/* Leftmost toolbars-button normal */
+NautilusPathBar.linked .button.text-button:hover:first-child,
+NautilusPathBar.linked .button.text-button:focus:hover:first-child,
+NautilusPathBar.linked GtkButton.button:hover:first-child,
+NautilusPathBar.linked GtkButton.button:focus:hover:first-child {
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.18) inset;
+    border-image: none;
+}
+
+/* Leftmost toolbars-button active */
+NautilusPathBar.linked .button.text-button:active:first-child,
+NautilusPathBar.linked .button.text-button:active:hover:first-child,
+NautilusPathBar.linked GtkButton.button:active:first-child,
+NautilusPathBar.linked GtkButton.button:active:hover:first-child,
+NautilusPathBar.linked .button.text-button:checked:first-child,
+NautilusPathBar.linked .button.text-button:checked:hover:first-child,
+NautilusPathBar.linked GtkButton.button:checked:first-child,
+NautilusPathBar.linked GtkButton.button:checked:hover:first-child {
+    box-shadow:                  0   1px alpha(black, 0.26) inset,
+				 0  -1px alpha(white, 0.28) inset,
+				 0   3px alpha(black, 0.08) inset;
+    border-image: none;
+}
+
+/* Leftmost toolbars-button insensitive */
+NautilusPathBar.linked .button.text-button:insensitive:first-child,
+NautilusPathBar.linked GtkButton.button:insensitive:first-child {
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+    border-image: none;
+}
+
+NautilusPathBar.linked .button.text-button:insensitive:first-child:backdrop,
+NautilusPathBar.linked GtkButton.button:insensitive:first-child:backdrop {
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(black, 0.12) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+    border-image: none;
+}
+
+/* Rightmost toolbar-button */
+NautilusPathBar.linked .button.text-button:last-child,
+NautilusPathBar.linked .button.text-button:hover:last-child,
+NautilusPathBar.linked .button.text-button:active:last-child,
+NautilusPathBar.linked .button.text-button:active:hover:last-child,
+NautilusPathBar.linked .button.text-button:checked:last-child,
+NautilusPathBar.linked .button.text-button:checked:hover:last-child,
+NautilusPathBar.linked .button.text-button:focus:last-child,
+NautilusPathBar.linked .button.text-button:active:focus:last-child,
+NautilusPathBar.linked .button.text-button:insensitive:last-child,
+NautilusPathBar.linked GtkButton.button:last-child,
+NautilusPathBar.linked GtkButton.button:hover:last-child,
+NautilusPathBar.linked GtkButton.button:active:last-child,
+NautilusPathBar.linked GtkButton.button:active:hover:last-child,
+NautilusPathBar.linked GtkButton.button:checked:last-child,
+NautilusPathBar.linked GtkButton.button:checked:hover:last-child,
+NautilusPathBar.linked GtkButton.button:focus:last-child,
+NautilusPathBar.linked GtkButton.button:active:focus:last-child,
+NautilusPathBar.linked GtkButton.button:insensitive:last-child {
+    border-width: 0;
+    border-image: none;
+    border-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    box-shadow:                  0   1px alpha(black, 0.26) inset,
+				 0  -1px alpha(white, 0.28) inset,
+				 0   3px alpha(black, 0.08) inset;
+}
+
+NautilusPathBar.linked .button.text-button:backdrop:last-child,
+NautilusPathBar.linked .button.text-button:hover:backdrop:last-child,
+NautilusPathBar.linked .button.text-button:focus:hover:backdrop:last-child,
+NautilusPathBar.linked GtkButton.button:backdrop:last-child,
+NautilusPathBar.linked GtkButton.button:hover:backdrop:last-child,
+NautilusPathBar.linked GtkButton.button:focus:hover:backdrop:last-child {
+    border-width: 0;
+    border-image: none;
+    border-radius: 7px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    box-shadow:                  0   1px alpha(black, 0.26) inset,
+				 0  -1px alpha(black, 0.12) inset,
+				 0   3px alpha(black, 0.08) inset;
+}
+
+/* Rightmost toolbar-button normal */
+NautilusPathBar.linked .button.text-button:hover:last-child,
+NautilusPathBar.linked .button.text-button:focus:hover:last-child,
+NautilusPathBar.linked GtkButton.button:hover:last-child,
+NautilusPathBar.linked GtkButton.button:focus:hover:last-child {
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.18) inset;
+     border-image: none;
+}
+
+/* Rightmost toolbar-button active */
+NautilusPathBar.linked .button.text-button:active:last-child,
+NautilusPathBar.linked .button.text-button:active:hover:last-child,
+NautilusPathBar.linked GtkButton.button:active:last-child,
+NautilusPathBar.linked GtkButton.button:active:hover:last-child,
+NautilusPathBar.linked .button.text-button:checked:last-child,
+NautilusPathBar.linked .button.text-button:checked:hover:last-child,
+NautilusPathBar.linked GtkButton.button:checked:last-child,
+NautilusPathBar.linked GtkButton.button:checked:hover:last-child {
+    box-shadow:                  0   1px alpha(black, 0.66) inset,
+				 0  -1px alpha(white, 0.28) inset,
+				 0   3px alpha(black, 0.08) inset,
+				-1px 0   alpha(black, 0.14) inset;
+    border-image: none;
+    border-width: 0;
+    border-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+/* Rightmost toolbar-button insensitive */
+NautilusPathBar.linked .button.text-button:insensitive:last-child,
+NautilusPathBar.linked GtkButton.button:insensitive:last-child {
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+    border-image: none;
+}
+
+NautilusPathBar.linked .button.text-button:insensitive:last-child:backdrop,
+NautilusPathBar.linked GtkButton.button:insensitive:last-child:backdrop {
+    box-shadow:                  0    1px alpha(black, 0.26) inset,
+				 0   -1px alpha(black, 0.12) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(white, 0.01) inset;
+    border-image: none;
+}
+
+/* Linked single toolbar-button */
+NautilusPathBar.linked .button.text-button:only-child:only-child,
+NautilusPathBar.linked .button.text-button:hover:only-child:only-child,
+NautilusPathBar.linked .button.text-button:hover:only-child:only-child,
+NautilusPathBar.linked .button.text-button:active:only-child:only-child,
+NautilusPathBar.linked .button.text-button:active:hover:only-child:only-child,
+NautilusPathBar.linked .button.text-button:checked:only-child:only-child,
+NautilusPathBar.linked .button.text-button:checked:hover:only-child:only-child,
+NautilusPathBar.linked .button.text-button:focus:only-child:only-child,
+NautilusPathBar.linked .button.text-button:focus:hover:only-child:only-child,
+NautilusPathBar.linked .button.text-button:insensitive:only-child:only-child {
+    border-width: 0px;
+    border-radius: 7px;
+    border-image: none;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+/* Linked single toolbar-button normal */
+NautilusPathBar.linked .button.text-button:hover:only-child,
+NautilusPathBar.linked .button.text-button:hover:focus:only-child{
+    box-shadow:                  0    1px alpha(black, 0.66) inset,
+				 0   -1px alpha(white, 0.28) inset,
+				 0    3px alpha(black, 0.08) inset,
+				 1px  0   alpha(black, 0.18) inset;
+    border-image: none;
+}
+
+/* Linked single toolbar-button active */
+NautilusPathBar.linked .button.text-button:active:only-child,
+NautilusPathBar.linked .button.text-button:active:hover:only-child,
+NautilusPathBar.linked .button.text-button:checked:only-child,
+NautilusPathBar.linked .button.text-button:checked:hover:only-child {
+    border-image: none;
+    border-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+/* Linked single toolbar-button insensitive */
+NautilusPathBar.linked .button.text-button:insensitive:only-child,
+NautilusPathBar.linked .button.text-button:insensitive:only-child:backdrop {
+    border-image: none;
+}
+
