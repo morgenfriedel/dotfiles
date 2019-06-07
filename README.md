@@ -8,7 +8,7 @@ The host and VMs require specific configurations for Spice in order to support m
 
 ## Debian
 
-Currently version 9 (stretch) with packages for KVM/libvirt as well as Python and Go development.
+Currently version 9 (stretch) with packages for KVM/libvirt as well as Python and C/C++.
 
 ```
 Desktop Environment: Xfce4
@@ -22,7 +22,7 @@ Total Packages: 2916
 
 ## Ubuntu
 
-Currently version 16.04 (Xenial Xerus) with packages for KVM/libvirt as well as Python and Go development.
+Currently version 16.04 (Xenial Xerus) with packages for PHP, Python, JavaScript, MySQL, and Apache.
 
 ```
 Window Manager: i3
