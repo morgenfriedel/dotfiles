@@ -8,7 +8,7 @@ The host and VMs require specific configurations for Spice in order to support m
 
 ## Debian
 
-Currently version 9 (stretch) with packages for KVM/libvirt as well as Python and Go development; 2916 packages in total.
+Currently version 9 (stretch) with packages for KVM/libvirt as well as Python and Go development.
 
 ```
 Desktop Environment: Xfce4
@@ -17,11 +17,12 @@ Shell: bash
 Editor: vim
 VM Manager: virsh
 Remote Display: spice
+Total Packages: 2916
 ```
 
 ## Ubuntu
 
-Currently version 16.04 (Xenial Xerus) with packages for KVM/libvirt as well as Python and Go development; 1745 packages in total.
+Currently version 16.04 (Xenial Xerus) with packages for KVM/libvirt as well as Python and Go development.
 
 ```
 Window Manager: i3
@@ -30,5 +31,6 @@ Shell: bash
 Editor: vim
 Menu: dmenu
 Remote Display: spice
+Total Packages: 1745
 ```
 
