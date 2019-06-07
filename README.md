@@ -1,6 +1,6 @@
 # dotfiles
 
-These dotfiles are for a Debian 9 host machine using KVM/libvirt to run development environments based on Ubuntu 16.04+.
+These dotfiles are for a Debian 9 host machine using KVM/libvirt to run development environments based on Ubuntu 16.04+. Both of these installations are made from the server editions available at each distro's website in order to reduce bloat.
 
 Configs shared between the two systems are located in the `shared` folder. Configs unique to each system are located in their respective folders along with documentation for each disparity. Each folder also contains a complete package list installed on each system.
 
