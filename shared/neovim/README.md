@@ -19,7 +19,13 @@ sh -c 'curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 
-4. Open `nvim` and then run the `:PlugInstall` command.
+4. Download and extract the Hack font tar file and copy the files over to your font directory:
 
-5. Restart `nvim` and then run `:call mkdp#util#install()` for the Markdown Preview plugin.
+[https://github.com/ryanoasis/nerd-fonts/releases](https://github.com/ryanoasis/nerd-fonts/releases)
+
+5. Open `nvim` and then run the `:PlugInstall` command.
+
+6. Restart `nvim` and then run `:call mkdp#util#install()` for the Markdown Preview plugin.
+
+7. Restart `nvim` in the directory you want to use it in or just close it. It should be ready to use now.
 
