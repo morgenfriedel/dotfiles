@@ -2,6 +2,8 @@
 
 This whole setup is just based on me trying to clone the features I use in VSCode over to NeoVim. It is a work in progress.
 
+![image](https://github.com/morgenfriedel/dotfiles/assets/6447273/625345fc-b857-4fba-aa49-a85e6d0992b0)
+
 # Installation
 
 1. Install NeoVim by going to their GitHub and downloading the lateset stable version (v0.9.2 at this time of writing).
