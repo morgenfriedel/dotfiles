@@ -21,9 +21,7 @@ sh -c 'curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 ```
 
-4. Download and extract the Hack font tar file and copy the files over to your font directory:
-
-> [https://github.com/ryanoasis/nerd-fonts/releases](https://github.com/ryanoasis/nerd-fonts/releases)
+4. [Download](https://github.com/ryanoasis/nerd-fonts/releases) and extract the Hack font tar file and copy the files over to your font directory.
 
 5. Open `nvim` and then run the `:PlugInstall` command.
 
