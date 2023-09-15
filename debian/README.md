@@ -1,1 +1,1 @@
-# Debian 9 (stretch) Host Environment
+# Debian 12.1 (bookworm) Hypervisor Server

@@ -1,6 +1,6 @@
 # dotfiles
 
-These dotfiles are for a Debian 9 host machine using KVM/QEMU to run development environments based on Ubuntu 16.04+. Both of these installations are made from the server editions available at each distro's website in order to reduce bloat.
+These dotfiles are for a Debian 12.1 hypervisor using KVM/QEMU. The hosted VMs will run Ubuntu 22.04+ along with the configs included here primarily for development purposes. Both of these installations are made from the server editions available at each distro's website (as opposed to the desktop editions) to keep unused packages and services to a minimum. 
 
 Configs shared between the two systems are located in the `shared` folder. Configs unique to each system are located in their respective folders along with documentation for each disparity. Each folder also contains a complete package list installed on each system.
 
@@ -8,7 +8,7 @@ The host and VMs require specific configurations for Spice in order to support m
 
 ## Debian
 
-Currently version 9 (stretch) with packages for KVM/libvirt as well as Python and C/C++.
+Currently version 12.1 (bookworm) with packages for KVM/libvirt as well as Python and C/C++.
 
 ```
 Desktop Environment: Xfce4
@@ -22,7 +22,7 @@ Total Packages: 2916
 
 ## Ubuntu
 
-Currently version 16.04 (Xenial Xerus) with packages for PHP, Python, JavaScript, MySQL, and Apache.
+Currently version 16.04 (Xenial Xerus) with packages for Node and AWS.
 
 ```
 Window Manager: i3
