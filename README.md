@@ -1,6 +1,6 @@
 # dotfiles
 
-These dotfiles are for a Debian 12.1 hypervisor using KVM/QEMU. The hosted VMs will run Ubuntu 22.04+ along with the configs included here primarily for development purposes. Both of these installations are made from the server editions available at each distro's website (as opposed to the desktop editions) to keep unused packages and services to a minimum. 
+These dotfiles are for a Debian 12.1 hypervisor using KVM/QEMU. The hosted VMs will run Ubuntu 22.04 along with the configs included here primarily for development purposes. Both of these installations are made from the server editions available at each distro's website (as opposed to the desktop editions) to keep unused packages and services to a minimum. 
 
 Configs shared between the two systems are located in the `shared` folder. Configs unique to each system are located in their respective folders along with documentation for each disparity. Each folder also contains a complete package list installed on each system.
 
@@ -22,7 +22,7 @@ Total Packages: 2916
 
 ## Ubuntu
 
-Currently version 16.04 (Xenial Xerus) with packages for Node and AWS.
+Currently version 22.04 (Jammy Jellyfish) with packages for Node and AWS.
 
 ```
 Window Manager: i3

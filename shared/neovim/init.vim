@@ -1,3 +1,5 @@
+source ~/.vimrc
+
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
@@ -120,3 +122,4 @@ function! FullQuit()
 endfunction
 
 command! Q :call FullQuit()
+
