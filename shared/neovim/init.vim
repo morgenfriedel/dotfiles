@@ -26,7 +26,6 @@ set background=dark
 let g:gitblame_enabled = 1
 highlight gitblame ctermfg=8 cterm=italic
 
-
 " nvim-lspconfig configuration
 lua << EOF
 local nvim_lsp = require'lspconfig'
@@ -34,6 +33,7 @@ nvim_lsp.tsserver.setup{}
 EOF
 
 " nvim-tree configuration
+autocmd BufRead * NvimTreeOpen
 nnoremap <C-t> :NvimTreeToggle<CR>
 nnoremap <C-h> :wincmd h<CR>
 nnoremap <C-l> :wincmd l<CR>
@@ -42,7 +42,7 @@ lua << EOF
 require("nvim-tree").setup({
   sort_by = "case_sensitive",
   view = {
-    width = 30,
+    width = 40,
   },
   renderer = {
     group_empty = true,
@@ -66,6 +66,7 @@ EOF
 " barbar.nvim configuration
 nmap <PageDown> :BufferNext<CR>
 nmap <PageUp> :BufferPrevious<CR>
+nmap <C-w> :BufferClose<CR>
 
 " copilot configuration
 nmap <silent> <C-Space> <Plug>(copilot-next)
@@ -80,7 +81,7 @@ cmp.setup({
     ['<C-n>'] = cmp.mapping.select_next_item(),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<Enter>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
   },
   sources = {
     { name = 'nvim_lsp' },
@@ -95,8 +96,27 @@ EOF
 set number
 set signcolumn=yes
 set linespace=1
+set expandtab
+set tabstop=2
+set shiftwidth=2
 nnoremap <Esc> :noh<CR><Esc>
-nmap <C-w> :BufferClose<CR>
-let g:last_closed_file = ''
-autocmd BufDelete,BufWipeout * let g:last_closed_file = expand('<afile>:p')
-nmap <C-S-T> :if g:last_closed_file != ''<Bar>execute 'edit' fnameescape(g:last_closed_file)<Bar>endif<CR>
+nmap <C-T> :NvimTreeToggle<CR>
+
+function! FullQuit()
+  " Get the total number of buffers
+  let buffer_count = len(getbufinfo({'buflisted': 1}))
+
+  " Check if NvimTree is open
+  let nvim_tree_open = nvim_call_function('bufwinnr', ['NvimTree'])
+
+  " If only one buffer and NvimTree is open
+  if buffer_count == 1 && nvim_tree_open != -1
+    " Close NvimTree
+    execute 'NvimTreeClose'
+  endif
+
+  " Quit Neovim
+  quit
+endfunction
+
+command! Q :call FullQuit()
