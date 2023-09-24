@@ -2,13 +2,15 @@ source ~/.vimrc
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'morhetz/gruvbox'
 Plug 'github/copilot.vim'
+Plug 'tpope/vim-commentary'
+Plug 'morhetz/gruvbox'
 Plug 'f-person/git-blame.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
+Plug 'airblade/vim-gitgutter'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -29,9 +31,20 @@ let g:gitblame_enabled = 1
 highlight gitblame ctermfg=8 cterm=italic
 
 " nvim-lspconfig configuration
+nmap <silent> ga <cmd>lua vim.lsp.buf.code_action()<CR>
 lua << EOF
 local nvim_lsp = require'lspconfig'
-nvim_lsp.tsserver.setup{}
+nvim_lsp.tsserver.setup{
+  capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true
+        }
+      }
+    }
+  }
+}
 EOF
 
 " nvim-tree configuration
@@ -71,19 +84,19 @@ nmap <PageUp> :BufferPrevious<CR>
 nmap <C-w> :BufferClose<CR>
 
 " copilot configuration
-nmap <silent> <C-Space> <Plug>(copilot-next)
-nmap <silent> <C-y> <Plug>(copilot-accept)
+nmap <silent> <C-Tab> <Plug>(copilot-next)
+nmap <silent> <C-Enter> <Plug>(copilot-accept)
 
 " nvim-cmp configuration
 lua << EOF
 local cmp = require'cmp'
 cmp.setup({
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+    ['<Enter>'] = cmp.mapping.confirm({ select = true }),
   },
   sources = {
     { name = 'nvim_lsp' },
@@ -104,6 +117,10 @@ set shiftwidth=2
 nnoremap <Esc> :noh<CR><Esc>
 nmap <C-T> :NvimTreeToggle<CR>
 
+" commentary configuration
+nmap  :Commentary<CR>
+
+" close tab with edit pane
 function! FullQuit()
   " Get the total number of buffers
   let buffer_count = len(getbufinfo({'buflisted': 1}))
@@ -123,3 +140,10 @@ endfunction
 
 command! Q :call FullQuit()
 
+" Show LSP diagnostics for the current line
+let mapleader = ","
+nnoremap <leader>d <cmd>lua vim.diagnostic.open_float()<CR>
+
+
+" ESLint auto-fix on save
+autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :silent :!./node_modules/.bin/eslint --fix %
