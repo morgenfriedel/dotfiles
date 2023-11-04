@@ -144,6 +144,5 @@ command! Q :call FullQuit()
 let mapleader = ","
 nnoremap <leader>d <cmd>lua vim.diagnostic.open_float()<CR>
 
-
 " ESLint auto-fix on save
-autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :silent :!./node_modules/.bin/eslint --fix %
+" autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :silent :!./node_modules/.bin/eslint --fix %
