@@ -22,6 +22,11 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 call plug#end()
 
+" Code folding
+set foldmethod=syntax  " Use syntax-based folding
+set foldenable         " Enable folding
+set foldlevelstart=99
+
 " theme (gruvbox) configuration
 colorscheme gruvbox
 set background=dark
@@ -143,6 +148,17 @@ command! Q :call FullQuit()
 " Show LSP diagnostics for the current line
 let mapleader = ","
 nnoremap <leader>d <cmd>lua vim.diagnostic.open_float()<CR>
+
+" File finder (telescope)
+nnoremap <C-e> :Telescope find_files<CR>
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    file_ignore_patterns = {"node_modules", ".git", "coverage"},
+    layout_strategy = 'horizontal',
+  }
+}
+EOF
 
 " ESLint auto-fix on save
 " autocmd BufWritePre *.js,*.jsx,*.ts,*.tsx :silent :!./node_modules/.bin/eslint --fix %
