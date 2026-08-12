@@ -213,7 +213,14 @@ head_ "Application configs parse"
 
 if command -v nvim >/dev/null 2>&1; then
   # Uses the real plugin dir; only checks that init.lua evaluates without error.
-  if out=$(timeout 60 nvim --headless -u "$DOTFILES/config/nvim/init.lua" -c 'qa' 2>&1) && [ -z "$out" ]; then
+  #
+  # nvim-lspconfig v2 emits a deprecation notice on every startup because this
+  # machine is on Neovim 0.10.x. It is expected and documented in init.lua, so
+  # it is filtered here -- any other output still fails the check.
+  out=$(timeout 60 nvim --headless -u "$DOTFILES/config/nvim/init.lua" -c 'qa' 2>&1 \
+        | grep -vF 'nvim-lspconfig support for Nvim 0.10 or older is deprecated' \
+        | grep -vF 'Feature will be removed in nvim-lspconfig v3.0.0')
+  if [ -z "$out" ]; then
     ok "nvim init.lua loads without errors"
   else
     no "nvim init.lua loads without errors" "${out%%$'\n'*}"
