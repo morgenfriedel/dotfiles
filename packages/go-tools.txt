@@ -1,0 +1,6 @@
+# Installed with: go install <module>@latest
+# (Locally-built project binaries in $GOPATH/bin are deliberately not listed.)
+github.com/gokcehan/lf@latest
+golang.org/x/tools/gopls@latest
+golang.org/x/tools/cmd/goimports@latest
+mvdan.cc/gofumpt@latest

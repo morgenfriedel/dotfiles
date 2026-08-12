@@ -1,0 +1,9 @@
+ccusage
+cdk
+corepack
+lerna
+license-checker
+npm
+typescript
+typescript-language-server
+vscode-langservers-extracted

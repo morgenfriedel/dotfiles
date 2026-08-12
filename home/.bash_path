@@ -1,0 +1,28 @@
+# ~/.bash_path - PATH and environment, sourced by both .profile and .bashrc
+
+# User binaries
+export PATH="$HOME/.local/bin:$PATH"
+
+# Go toolchain
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+
+# Global npm installs (npm prefix, keeps `npm i -g` out of /usr)
+export NPM_PACKAGES="$HOME/.npm-packages"
+[ -d "$NPM_PACKAGES/bin" ] && export PATH="$NPM_PACKAGES/bin:$PATH"
+
+# Composer vendor binaries
+export COMPOSER_SCRIPTS="$HOME/.composer/vendor/bin"
+[ -d "$COMPOSER_SCRIPTS" ] && export PATH="$COMPOSER_SCRIPTS:$PATH"
+
+# Ruby gems
+export GEM_HOME="$HOME/.gem"
+[ -d "$GEM_HOME/bin" ] && export PATH="$GEM_HOME/bin:$PATH"
+
+# Manpath for npm packages
+unset MANPATH
+export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+# NVIDIA Vulkan ICD
+export VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/nvidia_icd.json"

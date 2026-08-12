@@ -1,0 +1,11 @@
+*.background: #282A2E
+*.foreground: #C5C8C6
+*.color0:  #282A2E
+*.color1:  #A54242
+*.color2:  #8ABEB7
+*.color3:  #F0C674
+*.color4:  #C5C8C6
+*.color5:  #707880
+*.color6:  #373B41
+*.color7:  #282A2E
+st.alpha: 0.925
