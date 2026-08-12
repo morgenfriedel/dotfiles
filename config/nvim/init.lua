@@ -339,10 +339,17 @@ local caps = require("cmp_nvim_lsp").default_capabilities()
 local util = lspconfig.util
 
 -- TypeScript / JavaScript.
+--
 -- typescript-language-server resolves TypeScript from the workspace's
--- node_modules and otherwise fails to start, so point it at a standalone
--- 5.x install for single files. The global typescript is 7.x (the Go
--- rewrite), which this server does not drive.
+-- node_modules and fails to start when there isn't one, so a standalone 5.x
+-- install provides a fallback for single files. The global typescript is 7.x
+-- (the Go rewrite), which this server does not drive.
+--
+-- Important: init_options.tsserver.path OVERRIDES the workspace copy rather
+-- than deferring to it, which would silently type-check your projects with a
+-- different TypeScript than they pin -- the editor and CI would disagree. So
+-- it is applied per-root below, only when the project has no TypeScript of
+-- its own.
 local tsserver_lib = vim.fn.expand("~/.local/share/nvim-tsserver/node_modules/typescript/lib")
 
 lspconfig.ts_ls.setup({
@@ -350,9 +357,24 @@ lspconfig.ts_ls.setup({
   single_file_support = true,
   filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
   root_dir = util.root_pattern("tsconfig.json", "jsconfig.json", "package.json", ".git"),
+
+  on_new_config = function(new_config, root_dir)
+    local workspace_ts = root_dir and (root_dir .. "/node_modules/typescript/lib")
+    local use_workspace = workspace_ts and vim.fn.isdirectory(workspace_ts) == 1
+
+    new_config.init_options = vim.tbl_deep_extend("force", new_config.init_options or {}, {
+      -- nil lets the server resolve the project's own TypeScript
+      tsserver = (not use_workspace and vim.fn.isdirectory(tsserver_lib) == 1)
+        and { path = tsserver_lib }
+        or vim.NIL,
+    })
+    if new_config.init_options.tsserver == vim.NIL then
+      new_config.init_options.tsserver = nil
+    end
+  end,
+
   init_options = {
     hostInfo = "neovim",
-    tsserver = vim.fn.isdirectory(tsserver_lib) == 1 and { path = tsserver_lib } or nil,
     preferences = {
       includeCompletionsForModuleExports = true,
       includeCompletionsForImportStatements = true,
