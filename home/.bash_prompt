@@ -1,0 +1,51 @@
+# ~/.bash_prompt - prompt + helpers
+
+# Path shortener used in the prompt
+__short_wd_cygwin() {
+  local num_dirs=3
+  local newPWD="${PWD/#$HOME/~}"
+
+  if [ "$(printf '%s' "$newPWD" | awk -F '/' '{print NF}')" -gt "$num_dirs" ]; then
+    newPWD="$(printf '%s' "$newPWD" | awk -F '/' '{print $1 "/.../" $(NF-1) "/" $(NF)}')"
+  fi
+
+  printf '%s' "$newPWD"
+}
+
+# (You can keep this if you ever actually use it; otherwise safe to delete)
+__short_wd_cygpath() {
+  local num_dirs=3
+  local newPWD
+
+  newPWD="$(cygpath -C ANSI -w "${PWD/#$HOME/~}")"
+  if [ "$(printf '%s' "$newPWD" | awk -F '\\' '{print NF}')" -gt "$num_dirs" ]; then
+    newPWD="$(printf '%s' "$newPWD" | awk -F '\\' '{print $1 "\\...\\" $(NF-1) "\\" $(NF)}')"
+  fi
+
+  printf '%s' "$newPWD"
+}
+
+# Prompt colors
+FMT_BOLD="\[\e[1m\]"
+FMT_RESET="\[\e[0m\]"
+
+FG_DEFAULT="\[\e[38;2;197;200;198m\]"   # foreground
+FG_PRIMARY="\[\e[38;2;240;198;116m\]"   # gold
+FG_SECONDARY="\[\e[38;2;138;190;183m\]" # cyan
+FG_ALERT="\[\e[38;2;165;66;66m\]"       # red
+FG_DISABLED="\[\e[38;2;112;120;128m\]"  # muted gray
+
+BG_DEFAULT="\[\e[48;2;40;42;46m\]"      # dark bg
+BG_ALT="\[\e[48;2;55;59;65m\]"          # slightly lighter bg
+
+# Custom PS1
+export PS1=\
+"\n${FG_PRIMARY}╭─${FG_ALERT}◀${BG_ALT}${FG_DEFAULT}${FMT_BOLD} \d ${FG_DEFAULT}\t ${FMT_RESET}${FG_ALERT}${BG_DEFAULT}▶ "\
+"${FG_DEFAULT}\$(__short_wd_cygwin) ${FG_PRIMARY}${BG_ALT}▶ "\
+"${FG_DISABLED}📂 \$(find . -mindepth 1 -maxdepth 1 -type d | wc -l) "\
+"📄 \$(find . -mindepth 1 -maxdepth 1 -type f | wc -l) "\
+"🔗 \$(find . -mindepth 1 -maxdepth 1 -type l | wc -l) "\
+"${FMT_RESET}${FG_SECONDARY}"\
+"\$(git branch 2> /dev/null | grep '^*' | colrm 1 2 | xargs -I BRANCH echo -n \"${BG_DEFAULT}${FG_DEFAULT}▶${FG_PRIMARY} 🔀 BRANCH ${FMT_RESET}${FG_SECONDARY}\")"\
+"\n${FG_PRIMARY}╰▶${FG_SECONDARY} ${FMT_RESET}"
+
