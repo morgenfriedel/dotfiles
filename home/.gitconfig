@@ -4,6 +4,16 @@
 	rebase = false
 [rerere]
 	enabled = true
+[merge]
+	tool = nvimdiff
+	conflictstyle = zdiff3
+[mergetool]
+	keepBackup = false
+	prompt = false
+[diff]
+	tool = nvimdiff
+	algorithm = histogram
+	colorMoved = default
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
