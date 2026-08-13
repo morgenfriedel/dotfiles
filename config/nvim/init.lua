@@ -58,9 +58,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   -- LSP + completion
-  -- Pinned to v2.x on purpose: lspconfig's newer majors require Neovim 0.11+.
-  -- Unpin this when upgrading past 0.10.
-  { "neovim/nvim-lspconfig", version = "^2" },
+  -- Kept only for the server definitions in its lsp/*.lua; the deprecated
+  -- require('lspconfig') framework is no longer used, so no version pin.
+  "neovim/nvim-lspconfig",
   "hrsh7th/nvim-cmp",
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-buffer",
@@ -93,9 +93,19 @@ require("lazy").setup({
   -- and requires Neovim 0.11+. Revisit alongside the lspconfig pin.
   { "nvim-treesitter/nvim-treesitter", branch = "master", build = ":TSUpdate" },
   {
+    -- mkdp#util#install() downloads the prebuilt preview server into app/bin.
+    -- It is only defined once the plugin is sourced, which lazy hasn't done
+    -- at build time under ft/cmd loading -- hence the explicit Lazy load
+    -- first. Without it the build silently no-ops and :MarkdownPreview
+    -- exists but never starts. (Do not swap this for a yarn build: yarn 4
+    -- migrates the bundled app to PnP and exceeds lazy's build timeout.)
     "iamcco/markdown-preview.nvim",
-    ft = "markdown",
-    build = function() vim.fn["mkdp#util#install"]() end,
+    ft = { "markdown" },
+    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+    build = function()
+      vim.cmd("Lazy load markdown-preview.nvim")
+      vim.fn["mkdp#util#install"]()
+    end,
   },
   { "junegunn/fzf", build = "./install --bin" },
   "junegunn/fzf.vim",
@@ -195,12 +205,26 @@ map("n", "<C-l>", "<C-w>l")
 map("n", "<C-e>",  "<Cmd>Files<CR>")
 map("n", "<Esc>",  "<Cmd>noh<CR>")
 
--- Copilot (off by default; toggle per session)
+-- Copilot (off by default; toggle per session).
+-- These report their new state: the mappings are silent and Copilot itself
+-- says nothing when toggled, so without the notify there is no way to tell
+-- whether the keypress registered short of typing and waiting for a ghost
+-- suggestion.
 vim.g.copilot_enabled = 0
-vim.api.nvim_create_user_command("CopilotEnable",  function() vim.g.copilot_enabled = 1; vim.cmd("Copilot enable")  end, {})
-vim.api.nvim_create_user_command("CopilotDisable", function() vim.g.copilot_enabled = 0; vim.cmd("Copilot disable") end, {})
+
+local function copilot_set(on)
+  vim.g.copilot_enabled = on and 1 or 0
+  vim.cmd("Copilot " .. (on and "enable" or "disable"))
+  vim.notify("Copilot " .. (on and "enabled" or "disabled"), vim.log.levels.INFO)
+end
+
+vim.api.nvim_create_user_command("CopilotEnable",  function() copilot_set(true)  end, {})
+vim.api.nvim_create_user_command("CopilotDisable", function() copilot_set(false) end, {})
+vim.api.nvim_create_user_command("CopilotToggle",  function() copilot_set(vim.g.copilot_enabled ~= 1) end, {})
+
 map("n", "<leader>ce", "<Cmd>CopilotEnable<CR>")
 map("n", "<leader>cd", "<Cmd>CopilotDisable<CR>")
+map("n", "<leader>ct", "<Cmd>CopilotToggle<CR>")
 
 map("n", "<leader>z",  "<Cmd>ZenMode<CR>")
 map("n", "<leader>md", "<Cmd>MarkdownPreviewToggle<CR>")
@@ -334,9 +358,20 @@ cmp.setup.filetype({ "sql", "sh", "bash", "zsh", "markdown" }, {
 })
 
 -- ---------- LSP ----------
-local lspconfig = require("lspconfig")
+--
+-- Uses the native vim.lsp.config/vim.lsp.enable API (Neovim 0.11+).
+-- nvim-lspconfig is still installed, but only for the server definitions it
+-- ships in lsp/*.lua (cmd, filetypes, root_dir) -- not as a "framework".
+-- require('lspconfig').<server>.setup{} is deprecated and removed in v3.
+--
+-- Anything set here is merged on top of those base definitions, so the
+-- upstream root-detection logic (monorepo lock files for ts_ls, module cache
+-- for gopls) is inherited rather than reimplemented.
+
 local caps = require("cmp_nvim_lsp").default_capabilities()
-local util = lspconfig.util
+
+-- Completion capabilities apply to every server
+vim.lsp.config("*", { capabilities = caps })
 
 -- TypeScript / JavaScript.
 --
@@ -345,34 +380,14 @@ local util = lspconfig.util
 -- install provides a fallback for single files. The global typescript is 7.x
 -- (the Go rewrite), which this server does not drive.
 --
--- Important: init_options.tsserver.path OVERRIDES the workspace copy rather
--- than deferring to it, which would silently type-check your projects with a
--- different TypeScript than they pin -- the editor and CI would disagree. So
--- it is applied per-root below, only when the project has no TypeScript of
--- its own.
+-- Important: initializationOptions.tsserver.path OVERRIDES the workspace copy
+-- rather than deferring to it, which would silently type-check projects with
+-- a different TypeScript than they pin -- the editor and CI would disagree.
+-- So it is applied per-root in before_init, only when the project has no
+-- TypeScript of its own.
 local tsserver_lib = vim.fn.expand("~/.local/share/nvim-tsserver/node_modules/typescript/lib")
 
-lspconfig.ts_ls.setup({
-  capabilities = caps,
-  single_file_support = true,
-  filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-  root_dir = util.root_pattern("tsconfig.json", "jsconfig.json", "package.json", ".git"),
-
-  on_new_config = function(new_config, root_dir)
-    local workspace_ts = root_dir and (root_dir .. "/node_modules/typescript/lib")
-    local use_workspace = workspace_ts and vim.fn.isdirectory(workspace_ts) == 1
-
-    new_config.init_options = vim.tbl_deep_extend("force", new_config.init_options or {}, {
-      -- nil lets the server resolve the project's own TypeScript
-      tsserver = (not use_workspace and vim.fn.isdirectory(tsserver_lib) == 1)
-        and { path = tsserver_lib }
-        or vim.NIL,
-    })
-    if new_config.init_options.tsserver == vim.NIL then
-      new_config.init_options.tsserver = nil
-    end
-  end,
-
+vim.lsp.config("ts_ls", {
   init_options = {
     hostInfo = "neovim",
     preferences = {
@@ -385,22 +400,32 @@ lspconfig.ts_ls.setup({
       quotePreference = "auto",
     },
   },
+
+  before_init = function(params, config)
+    local root = config.root_dir
+    local workspace_ts = root and (root .. "/node_modules/typescript/lib")
+    local use_workspace = workspace_ts and vim.fn.isdirectory(workspace_ts) == 1
+
+    params.initializationOptions = params.initializationOptions or {}
+    if use_workspace or vim.fn.isdirectory(tsserver_lib) == 0 then
+      -- nil lets the server resolve the project's own TypeScript
+      params.initializationOptions.tsserver = nil
+    else
+      params.initializationOptions.tsserver = { path = tsserver_lib }
+    end
+  end,
 })
 
 -- JSON / HTML / CSS, all from vscode-langservers-extracted
-lspconfig.jsonls.setup({ capabilities = caps })
-lspconfig.html.setup({ capabilities = caps })
-lspconfig.cssls.setup({ capabilities = caps })
+vim.lsp.config("jsonls", {})
+vim.lsp.config("html", {})
+vim.lsp.config("cssls", {})
 
 -- ESLint is deliberately not configured here yet; linting is being worked
 -- through separately against the CI setup.
 
 -- Go
-lspconfig.gopls.setup({
-  capabilities = caps,
-  cmd = { "gopls" },
-  filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+vim.lsp.config("gopls", {
   settings = {
     gopls = {
       analyses = {
@@ -416,28 +441,27 @@ lspconfig.gopls.setup({
       gofumpt     = true,
     },
   },
+
   on_attach = function(client, bufnr)
-    if not client.server_capabilities.documentFormattingProvider then return end
+    if not client:supports_method("textDocument/formatting") then return end
 
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = vim.api.nvim_create_augroup("GoFormat_" .. bufnr, { clear = true }),
       buffer = bufnr,
       callback = function()
-        -- Organize imports (goimports equivalent) via gopls.
-        -- 0.10 API: make_range_params takes no arguments here. On 0.11+ it
-        -- requires a position encoding, e.g. make_range_params(0, client.offset_encoding).
-        local params = vim.lsp.util.make_range_params()
-        params.context = { only = { "source.organizeImports" } }
+        -- Organize imports (goimports equivalent) via gopls
+        local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
+        params.context = { only = { "source.organizeImports" }, diagnostics = {} }
 
         local result = vim.lsp.buf_request_sync(bufnr, "textDocument/codeAction", params, 1000)
-        for client_id, res in pairs(result or {}) do
+        for _, res in pairs(result or {}) do
           for _, r in pairs(res.result or {}) do
-            if r.edit then
-              local enc = (vim.lsp.get_client_by_id(client_id) or {}).offset_encoding or "utf-16"
-              vim.lsp.util.apply_workspace_edit(r.edit, enc)
-            elseif r.command then
-              -- 0.10 API. Removed on 0.11+; use client:exec_cmd(r.command).
-              vim.lsp.buf.execute_command(r.command)
+            -- Since 0.12 an LSP JSON null arrives as vim.NIL, which is truthy
+            -- in Lua, so a bare `if r.edit then` would take the wrong branch.
+            if r.edit and r.edit ~= vim.NIL then
+              vim.lsp.util.apply_workspace_edit(r.edit, client.offset_encoding)
+            elseif r.command and r.command ~= vim.NIL then
+              client:exec_cmd(r.command, { bufnr = bufnr })
             end
           end
         end
@@ -447,3 +471,5 @@ lspconfig.gopls.setup({
     })
   end,
 })
+
+vim.lsp.enable({ "ts_ls", "jsonls", "html", "cssls", "gopls" })

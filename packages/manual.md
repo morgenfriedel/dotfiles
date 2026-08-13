@@ -30,21 +30,57 @@ with `xrdb` at login.
 
 ## Neovim
 
-Installed from the Ubuntu archive (`apt install neovim`), currently v0.10.4.
+Currently **v0.12.4**, installed from the official tarball — *not* from apt,
+and not from the PPA:
 
-Plugins are managed by [packer.nvim](https://github.com/wbthomason/packer.nvim),
-which bootstraps itself on first launch into
-`~/.local/share/nvim/site/pack/packer/start/`. On a fresh machine:
+- Ubuntu 24.04's archive only carries 0.10.4.
+- `ppa:neovim-ppa/stable` publishes no package for noble at all.
+- `ppa:neovim-ppa/unstable` carries a 0.12.0 dev snapshot, older than stable.
 
-1. `nvim` — packer clones itself and runs `PackerSync`
-2. Restart, then `:TSUpdate` for treesitter parsers
-3. `:call mkdp#util#install()` for markdown-preview
+```sh
+curl -LO https://github.com/neovim/neovim/releases/download/v0.12.4/nvim-linux-x86_64.tar.gz
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+sudo mv /opt/nvim-linux-x86_64 /opt/nvim
+sudo ln -sfn /opt/nvim/bin/nvim /usr/local/bin/nvim
+```
 
-Language servers used by the config are installed separately: `gopls` (see
-below) and `typescript-language-server` (see npm below).
+`/usr/local/bin` precedes `/usr/bin`, so this shadows any apt copy while
+leaving it installed as a fallback. To roll back: `sudo rm /usr/local/bin/nvim`.
+Requires glibc ≥ 2.34 (noble has 2.39); otherwise use the `neovim-releases`
+builds for older glibc.
 
-> Note: packer has been archived upstream since 2023, and this config still
-> targets it. Migrating to lazy.nvim is a known outstanding task.
+Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim), which
+bootstraps itself on first launch into `~/.local/share/nvim/lazy/`. On a fresh
+machine just run `nvim` — lazy clones itself, installs everything, and
+treesitter parsers build automatically from `ensure_installed`.
+
+LSP uses the native `vim.lsp.config`/`vim.lsp.enable` API. nvim-lspconfig is
+still installed, but only for the server definitions it ships in `lsp/*.lua`;
+the deprecated `require('lspconfig').<server>.setup{}` framework is not used.
+
+Two deliberate constraints in `init.lua`:
+
+- `nvim-treesitter` is pinned to `branch = "master"`. The default `main`
+  branch is a rewrite that drops the `nvim-treesitter.configs` API. Master is
+  archived upstream but works; migrating is an outstanding task.
+- `ts_ls` falls back to a standalone TypeScript install for single files —
+  see below — but defers to a project's own TypeScript when it has one, so
+  the editor and CI agree on versions.
+
+Language servers are installed separately: `gopls` (see Go below),
+`typescript-language-server` and `vscode-langservers-extracted` (see npm).
+
+### Standalone TypeScript for ts_ls
+
+`typescript-language-server` resolves TypeScript from the workspace and won't
+start without one, so single files need a fallback. The global `typescript` is
+7.x (the Go rewrite), which this server does not drive — hence a dedicated 5.x
+install that nothing else touches:
+
+```sh
+mkdir -p ~/.local/share/nvim-tsserver && cd ~/.local/share/nvim-tsserver
+npm init -y && npm install typescript@5
+```
 
 ## Go
 

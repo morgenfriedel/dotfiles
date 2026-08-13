@@ -22,3 +22,8 @@ config/nvim/autoload/plug.vim
 
 # Installer backups
 .dotfiles-backup/
+
+# Downloaded archives (e.g. Neovim release tarballs) - never commit binaries
+*.tar.gz
+*.appimage
+*.zip
