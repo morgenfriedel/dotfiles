@@ -82,8 +82,13 @@ require("lazy").setup({
   "tpope/vim-commentary",
   { "kylechui/nvim-surround", version = "*" },
 
-  -- Git: gitsigns replaces vim-gitgutter and git-blame.nvim
+  -- Git.
+  -- gitsigns: in-buffer hunks (replaces vim-gitgutter and git-blame.nvim)
+  -- fugitive: porcelain -- status, staging, commits, 3-way conflict splits
+  -- diffview: branch-wide review, GitHub Compare style, plus a merge tool
   "lewis6991/gitsigns.nvim",
+  "tpope/vim-fugitive",
+  { "sindrets/diffview.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
 
   -- Tools
   "nvim-lua/plenary.nvim",
@@ -305,8 +310,16 @@ require("gitsigns").setup({
       vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, desc = desc })
     end
 
-    bmap("n", "]c", function() gs.nav_hunk("next") end, "Next hunk")
-    bmap("n", "[c", function() gs.nav_hunk("prev") end, "Previous hunk")
+    -- In a diff (diffview, :Gvdiffsplit, vimdiff) ]c/[c are Vim's builtin
+    -- next/previous-change motions, which is what you actually want there.
+    -- Outside a diff they navigate gitsigns hunks.
+    bmap("n", "]c", function()
+      if vim.wo.diff then vim.cmd.normal({ "]c", bang = true }) else gs.nav_hunk("next") end
+    end, "Next hunk / change")
+    bmap("n", "[c", function()
+      if vim.wo.diff then vim.cmd.normal({ "[c", bang = true }) else gs.nav_hunk("prev") end
+    end, "Previous hunk / change")
+
     bmap("n", "<leader>hs", gs.stage_hunk,      "Stage hunk")
     bmap("n", "<leader>hr", gs.reset_hunk,      "Reset hunk")
     bmap("n", "<leader>hp", gs.preview_hunk,    "Preview hunk")
@@ -314,6 +327,50 @@ require("gitsigns").setup({
     bmap("n", "<leader>hd", gs.diffthis,        "Diff this")
   end,
 })
+
+-- Diffview: branch-wide review and merge-conflict resolution.
+-- Note the three-dot range in <leader>gd: like GitHub's Compare view it
+-- diffs against the merge base, so commits that landed on master after you
+-- branched do not show up as part of your changes.
+require("diffview").setup({
+  enhanced_diff_hl = true,
+  view = {
+    -- During a merge, open the 3-way layout: OURS and THEIRS above the
+    -- working copy, with BASE reachable via :DiffviewToggleFiles / 4-way.
+    merge_tool = { layout = "diff3_mixed", disable_diagnostics = true },
+  },
+})
+
+-- Resolve the repo's default branch rather than assuming master: prefer what
+-- the remote advertises as origin/HEAD, then fall back through the usual names.
+local function base_ref()
+  local head = vim.fn.systemlist("git symbolic-ref --quiet --short refs/remotes/origin/HEAD")[1]
+  if vim.v.shell_error == 0 and head and head ~= "" then return head end
+  for _, ref in ipairs({ "origin/main", "origin/master", "main", "master" }) do
+    vim.fn.system({ "git", "rev-parse", "--verify", "--quiet", ref })
+    if vim.v.shell_error == 0 then return ref end
+  end
+  return nil
+end
+
+map("n", "<leader>gd", function()
+  local base = base_ref()
+  if not base then
+    vim.notify("No default branch found; showing uncommitted changes", vim.log.levels.WARN)
+    vim.cmd("DiffviewOpen")
+  else
+    vim.cmd("DiffviewOpen " .. base .. "...HEAD")
+  end
+end, { desc = "Review branch vs default branch" })
+map("n", "<leader>gD", "<Cmd>DiffviewOpen<CR>",                     { desc = "Review uncommitted changes" })
+map("n", "<leader>gh", "<Cmd>DiffviewFileHistory %<CR>",            { desc = "History of this file" })
+map("n", "<leader>gH", "<Cmd>DiffviewFileHistory<CR>",              { desc = "History of this branch" })
+map("n", "<leader>gq", "<Cmd>DiffviewClose<CR>",                    { desc = "Close diffview" })
+
+-- Fugitive: staging, commits, and three-way conflict splits
+map("n", "<leader>gs", "<Cmd>Git<CR>",           { desc = "Git status" })
+map("n", "<leader>gb", "<Cmd>Git blame<CR>",     { desc = "Git blame" })
+map("n", "<leader>gm", "<Cmd>Git mergetool<CR>", { desc = "Conflicted files to quickfix" })
 
 -- ---------- Surround ----------
 require("nvim-surround").setup({})
