@@ -19,7 +19,7 @@ File Manager:    lf
 home/       files that link into ~
 config/     directories that link into ~/.config
 packages/   package lists and manual-install notes
-hosts/      configs for other machines, kept for reference
+hosts/      per-machine overlays, plus configs for dormant machines
 install.sh  symlinks everything into place
 ```
 
@@ -50,6 +50,18 @@ Because it is sourced last, it can also override anything defined in
 mind — `gtp` (commit and push) and `asl` (AWS SSO login) — with generic
 versions here and repo-specific ones layered on top locally.
 
+`.gitconfig` follows the same pattern for `user.email` and similar: it
+`[include]`s `~/.gitconfig.local`, an untracked file git silently ignores if
+absent. There's no repo-tracked "work" variant of this — an email address is
+enough to identify an employer, so it never touches git history, same as
+`.bash_work`.
+
+A few values (currently just the external-monitor name in `.xprofile`) are
+genuinely just machine identity, not secrets, so they're handled differently:
+`hosts/<name>/` can hold small overlay files (`xprofile`, so far) that
+`install.sh` offers as a "which machine is this?" prompt, remembered in
+`~/.dotfiles-host`, or set directly with `--host=NAME`.
+
 ## Shell
 
 `.bashrc` loads in a fixed order: `.bash_path` (PATH and environment) →
@@ -63,7 +75,7 @@ Readline and tmux are both in vi mode.
 
 `config/nvim/init.lua` is the working config: treesitter-based highlighting,
 nvim-cmp completion, and LSP for TypeScript and Go. Plugins are managed by
-packer, which bootstraps itself on first launch.
+lazy.nvim, which bootstraps itself on first launch.
 
 `config/nvim/text-config.vim` is a separate minimal prose-editing config
 (Goyo, no UI chrome), reachable through the `tvim` alias.
@@ -82,5 +94,10 @@ sequences Neovim can read, for buffer switching when kitty is used instead.
 
 ## hosts/
 
-`hosts/hypervisor/` holds configs for a Debian 12 KVM/QEMU hypervisor that is
-currently dormant. Kept so the machine can be rebuilt, not actively synced.
+`hosts/<name>/` serves two different purposes depending on what it contains:
+
+- Overlay files with a name `install.sh` recognizes (currently `xprofile`)
+  are actively applied — see "Local and work settings" above.
+- Everything else is reference-only. `hosts/hypervisor/` holds configs for a
+  Debian 12 KVM/QEMU hypervisor that is currently dormant, kept so the
+  machine can be rebuilt, not actively synced.
