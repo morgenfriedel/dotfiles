@@ -1,8 +1,7 @@
 -- init.lua — treesitter-first, TypeScript + Go, managed by lazy.nvim
 --
--- Targets Neovim 0.10.x. A few APIs here are deliberately the pre-0.11 forms
--- (vim.diagnostic.goto_prev/next, vim.lsp.util.make_range_params without an
--- encoding argument); they are marked below and need updating on 0.11+.
+-- Targets Neovim 0.11+: uses the native vim.lsp.config/vim.lsp.enable API
+-- (see below) and vim.diagnostic.jump for diagnostic navigation.
 
 vim.uv = vim.uv or vim.loop
 vim.g.mapleader = ","
@@ -100,15 +99,15 @@ require("lazy").setup({
   {
     -- mkdp#util#install() downloads the prebuilt preview server into app/bin.
     -- It is only defined once the plugin is sourced, which lazy hasn't done
-    -- at build time under ft/cmd loading -- hence the explicit Lazy load
-    -- first. Without it the build silently no-ops and :MarkdownPreview
-    -- exists but never starts. (Do not swap this for a yarn build: yarn 4
-    -- migrates the bundled app to PnP and exceeds lazy's build timeout.)
+    -- at build time under ft/cmd loading -- hence the explicit load first.
+    -- Without it the build silently no-ops and :MarkdownPreview exists but
+    -- never starts. (Do not swap this for a yarn build: yarn 4 migrates the
+    -- bundled app to PnP and exceeds lazy's build timeout.)
     "iamcco/markdown-preview.nvim",
     ft = { "markdown" },
     cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
     build = function()
-      vim.cmd("Lazy load markdown-preview.nvim")
+      require("lazy").load({ plugins = { "markdown-preview.nvim" } })
       vim.fn["mkdp#util#install"]()
     end,
   },
@@ -244,9 +243,8 @@ map("n", "K",          vim.lsp.buf.hover)
 map("n", "<leader>rn", vim.lsp.buf.rename)
 map("n", "<leader>f",  function() vim.lsp.buf.format({ async = true }) end)
 map("n", "<leader>d",  vim.diagnostic.open_float)
--- 0.10 API. On 0.11+ these become vim.diagnostic.jump({ count = -1, float = true }).
-map("n", "[d",         vim.diagnostic.goto_prev)
-map("n", "]d",         vim.diagnostic.goto_next)
+map("n", "[d",         function() vim.diagnostic.jump({ count = -1, float = true }) end)
+map("n", "]d",         function() vim.diagnostic.jump({ count = 1, float = true }) end)
 
 -- Disable F1 help
 map({ "n", "i", "v" }, "<F1>", "<Nop>")

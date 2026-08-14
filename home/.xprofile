@@ -4,6 +4,10 @@
 internal="eDP-1"
 external="DP-1-3.1"
 
+# Monitor names vary per machine; hosts/<id>/xprofile overrides `external`
+# above. install.sh's machine-selection step links the right one here.
+[ -f ~/.xprofile-host ] && . ~/.xprofile-host
+
 # Check if the external monitor is connected
 if xrandr | grep "$external connected"; then
     # External monitor is connected
