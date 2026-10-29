@@ -111,7 +111,9 @@ npm install -g $(grep -v '^npm$' packages/npm-global.txt | tr '\n' ' ')
 
 ## Fonts
 
-Nerd Fonts (Hack) for the devicons used by lualine, barbar and lf.
+Nerd Fonts (Hack) for the devicons used by lualine, barbar and lf, and for
+every icon in polybar (it names the font directly, so without it the bar
+drops every icon).
 Download from <https://github.com/ryanoasis/nerd-fonts/releases>, extract to
 `~/.local/share/fonts/`, then `fc-cache -fv`.
 

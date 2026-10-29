@@ -36,7 +36,8 @@ check() {
 head_ "Shell syntax"
 
 for f in "$DOTFILES"/home/.bash* "$DOTFILES"/home/.profile "$DOTFILES"/home/.xprofile \
-         "$DOTFILES"/install.sh "$DOTFILES"/config/polybar/scripts/battery.sh; do
+         "$DOTFILES"/install.sh "$DOTFILES"/config/polybar/launch.sh \
+         "$DOTFILES"/config/i3/scripts/*.sh; do
   [ -f "$f" ] || continue
   check "${f#$DOTFILES/}" bash -n "$f"
 done
@@ -232,7 +233,8 @@ else
 fi
 
 if command -v polybar >/dev/null 2>&1; then
-  check "polybar config parses" polybar --config="$DOTFILES/config/polybar/config.ini" --dump=width
+  check "polybar config parses" polybar --config="$DOTFILES/config/polybar/config.ini" --dump=width main
+  check "polybar secondary bar parses" polybar --config="$DOTFILES/config/polybar/config.ini" --dump=modules-right secondary
 else
   skip "polybar" "not installed"
 fi
@@ -243,11 +245,13 @@ else
   skip "picom" "not installed"
 fi
 
-if [ -x "$DOTFILES/config/polybar/scripts/battery.sh" ]; then
-  ok "polybar battery.sh is executable"
-else
-  no "polybar battery.sh is executable" "chmod +x it, polybar will not run it otherwise"
-fi
+for f in "$DOTFILES"/config/polybar/launch.sh "$DOTFILES"/config/i3/scripts/*.sh; do
+  if [ -x "$f" ]; then
+    ok "${f#$DOTFILES/} is executable"
+  else
+    no "${f#$DOTFILES/} is executable" "chmod +x it, i3 will not run it otherwise"
+  fi
+done
 
 # -------------------------------------------------------------- packages ----
 head_ "Package lists"

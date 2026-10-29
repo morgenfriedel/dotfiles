@@ -69,6 +69,7 @@ i3lock
 i3status
 i3-wm
 init
+jq
 ksuid
 libc6
 libdebconfclient0

@@ -82,6 +82,28 @@ lazy.nvim, which bootstraps itself on first launch.
 
 Installation details are in [`packages/manual.md`](packages/manual.md).
 
+## Bar and notifications
+
+i3 runs `config/polybar/launch.sh` on start and on every restart
+(`exec_always`; a plain reload skips it), so `$mod+Shift+r` rebuilds the bars — the fix for a stuck bar
+or one left on the wrong monitor after plugging one in. It starts `bar/main`
+(with the tray) on the primary monitor and `bar/secondary` on the others,
+detects the battery and adapter names, and logs to
+`$XDG_RUNTIME_DIR/polybar-<monitor>.log` rather than `~/.xsession-errors`.
+
+Workspaces show an icon for each app on them instead of a number.
+`config/i3/scripts/workspace-icons.sh` listens for windows opening, closing and
+moving, and renames each workspace to `N:<icons>` (plain `N` when empty);
+polybar strips the `N:`. Add apps to its `icon_for` table — the key is the
+lowercased `WM_CLASS` class from `xprop`. Because names no longer equal the
+number, i3 bindings use `workspace number N`. All bar icons are
+Hack Nerd Font glyphs — emoji are not in the font and polybar warns on every
+redraw it drops one.
+
+The battery icon turns red below 20%, and at 10% the module becomes a red
+block with a blinking warning. `config/i3/scripts/battery-alert.sh` adds dunst
+notifications at 20%, 10% and 5%, then every minute below that.
+
 ## Terminal
 
 `st` is built from [morgenfriedel/st](https://github.com/morgenfriedel/st)
