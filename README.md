@@ -102,7 +102,28 @@ redraw it drops one.
 
 The battery icon turns red below 20%, and at 10% the module becomes a red
 block with a blinking warning. `config/i3/scripts/battery-alert.sh` adds dunst
-notifications at 20%, 10% and 5%, then every minute below that.
+notifications at 20%, 10% and 5%, then every minute below that. At 3% on
+battery it warns, waits 60 seconds, then locks the screen and
+suspends. `config/i3/scripts/lock.sh` is the lock: a pixelated, dimmed
+screenshot. With `xsecurelock` installed, typing shows a password prompt in
+the bar's colours (`lock-saver.py` draws the background); without it, stock
+`i3lock` is used with no typing feedback. A plain colour stands in if the
+image can't be made. Plugging in cancels; clicking or dismissing the warning cancels
+auto-suspend until the next time the charger is unplugged.
+`BATTERY_ALERT_TEST=1 config/i3/scripts/battery-alert.sh` runs the whole flow
+on a 5-second cycle, alongside the real instance, without suspending.
+
+`config/dunst/dunstrc` themes notifications to match the bar. Its keys are in
+i3: `$mod+n` dismisses, `$mod+Shift+n` restores the last dismissed,
+`$mod+Ctrl+n` dismisses all, and `$mod+Shift+d` toggles do-not-disturb (a bell
+shows in the bar). Do-not-disturb holds everything, critical included, so
+`battery-alert.sh` turns it off at 5%.
+
+Media keys run `config/i3/scripts/volume.sh` (`pactl`, so PulseAudio or
+PipeWire) and `brightness.sh`, each with a progress-bar popup;
+play/pause/next/previous use `playerctl`. Brightness needs the `video` group
+for direct access, otherwise it goes through systemd-logind — see
+[`packages/manual.md`](packages/manual.md).
 
 ## Terminal
 

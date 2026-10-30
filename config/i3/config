@@ -120,6 +120,24 @@ bindsym $mod+shift+o resize grow width 10 px or 5 ppt
 bindsym Print exec "maim | tee ~/Pictures/Screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png && notify-send 'Screenshot taken' 'Saved to ~/Pictures/Screenshots and clipboard'"
 bindsym $mod+Print exec "maim -s | tee ~/Pictures/Screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png && notify-send 'Screenshot taken' 'Saved to ~/Pictures/Screenshots and clipboard'"
 
+# Media and brightness keys. Holding a key repeats it.
+bindsym XF86AudioRaiseVolume  exec --no-startup-id ~/.config/i3/scripts/volume.sh up
+bindsym XF86AudioLowerVolume  exec --no-startup-id ~/.config/i3/scripts/volume.sh down
+bindsym XF86AudioMute         exec --no-startup-id ~/.config/i3/scripts/volume.sh mute
+bindsym XF86AudioMicMute      exec --no-startup-id ~/.config/i3/scripts/volume.sh mic-mute
+bindsym XF86MonBrightnessUp   exec --no-startup-id ~/.config/i3/scripts/brightness.sh up
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness.sh down
+# playerctl controls whichever player is active (Spotify, Firefox, mpv, ...).
+bindsym XF86AudioPlay         exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext         exec --no-startup-id playerctl next
+bindsym XF86AudioPrev         exec --no-startup-id playerctl previous
+
+# Notifications (dunst)
+bindsym $mod+n          exec --no-startup-id dunstctl close
+bindsym $mod+Shift+n    exec --no-startup-id dunstctl history-pop
+bindsym $mod+Ctrl+n     exec --no-startup-id dunstctl close-all
+bindsym $mod+Shift+d    exec --no-startup-id dunstctl set-paused toggle && polybar-msg action dnd hook 0
+
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 

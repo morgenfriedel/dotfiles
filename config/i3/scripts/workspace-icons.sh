@@ -88,6 +88,8 @@ while [ "$failures" -lt 5 ]; do
             '{"change":"new"'*|'{"change":"close"'*|'{"change":"move"'*) update ;;
             '{"change":"exit"'*) exit 0 ;;
         esac
-    done < <(i3-msg -t subscribe -m '["window","shutdown"]')
+    # 9>&-: keep the lock out of the long-lived child, so killing this
+    # script frees it immediately.
+    done < <(i3-msg -t subscribe -m '["window","shutdown"]' 9>&-)
     sleep 1
 done

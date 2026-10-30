@@ -117,6 +117,20 @@ drops every icon).
 Download from <https://github.com/ryanoasis/nerd-fonts/releases>, extract to
 `~/.local/share/fonts/`, then `fc-cache -fv`.
 
+## Backlight permission
+
+The brightness keys (`config/i3/scripts/brightness.sh`) and plain
+`brightnessctl` need write access to the backlight, which brightnessctl's udev
+rule grants to the `video` group. Ubuntu doesn't add users to it (GNOME sets
+brightness through its own daemon), so once per machine:
+
+```
+sudo usermod -aG video $USER   # takes effect at next login
+```
+
+Without it the keys still work, through systemd-logind, but `brightnessctl`
+from a terminal needs `sudo`.
+
 ## theme.sh
 
 Terminal colorscheme switcher, installed to `~/theme.sh` and invoked from
