@@ -55,7 +55,7 @@
     sticky_history = yes
     history_length = 30
 
-    dmenu = /usr/bin/dmenu -b -p dunst
+    dmenu = rofi -dmenu -i -p dunst
     browser = /usr/bin/xdg-open
 
     # Left click runs the notification's action (e.g. opens the Slack thread)
@@ -94,4 +94,11 @@
 
 [brightness]
     appname = brightness
+    history_ignore = yes
+
+# Screenshot preview above the text (screenshot.sh).
+[screenshot]
+    appname = screenshot
+    icon_position = top
+    max_icon_size = 300
     history_ignore = yes

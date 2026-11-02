@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# autorandr runs this after switching to a saved monitor layout: one polybar
+# per monitor again, and the wallpaper redrawn at the new size. Layouts are
+# saved per machine with `autorandr --save <name>` and aren't tracked here.
+
+~/.config/polybar/launch.sh >/dev/null 2>&1 &
+[ -x ~/.fehbg ] && ~/.fehbg

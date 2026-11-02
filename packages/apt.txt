@@ -7,6 +7,7 @@ arandr
 autoconf
 autoconf-archive
 automake
+autorandr
 base-files
 base-passwd
 bash
@@ -52,6 +53,7 @@ fonts-liberation
 fonts-liberation2
 fonts-noto-color-emoji
 galculator
+gammastep
 gedit
 gh
 gimp
@@ -119,6 +121,7 @@ openvpn3
 openvpn3-client
 p7zip-full
 pandoc
+papirus-icon-theme
 pavucontrol
 picom
 pkg-config
@@ -131,6 +134,7 @@ qt6-base-dev
 qt6-wayland
 qutebrowser
 rename
+rofi
 ripgrep
 ruby-full
 shim-signed

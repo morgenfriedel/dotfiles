@@ -125,6 +125,59 @@ play/pause/next/previous use `playerctl`. Brightness needs the `video` group
 for direct access, otherwise it goes through systemd-logind — see
 [`packages/manual.md`](packages/manual.md).
 
+## Desktop keys and helpers
+
+| Key | Does |
+| --- | --- |
+| `$mod+d` | launcher: apps by name, with icons; Ctrl+Tab switches to commands and windows |
+| `$mod+w` | jump to any open window |
+| `$mod+Escape` | lock (`lock.sh`) |
+| `$mod+Shift+e` | power menu: lock, suspend, log out, reboot, shut down; the last three ask to confirm |
+| `$mod+v` | clipboard history |
+| ``$mod+` `` | dropdown terminal (a floating `st` in the scratchpad) |
+| `$mod+Shift+b` | night light off/on |
+| `Print` / `$mod+Print` | screenshot of the screen / of a region or window |
+
+The launcher is rofi (`config/rofi/config.rasi`), drawn as a search field
+inside polybar between the workspaces and the metrics. Matches line up in a
+row inside it; windows and clipboard history drop down below it as a list.
+The field covers the window title, from just right of the `|` separator up
+to the metrics, and fits however many workspaces are open. polybar doesn't
+report where its modules are, so `config/i3/scripts/bar-gap.py` measures it
+from a thin strip of the bar each time `launcher.sh` opens (about 35ms). It
+finds the separator by its exact pixels, which it learns the first time each
+session by hiding the title for a moment, so the title blinks once. If it
+can't be measured, the theme's fixed position is used. Without rofi, the
+launcher falls back to dmenu.
+
+`config/i3/scripts/clipboard.py daemon` records copied text (the clipboard,
+not the mouse selection), newest first, up to 50 entries. The history is kept
+in `$XDG_RUNTIME_DIR`, which is in memory, so it never reaches the disk and is
+gone at logout. It skips anything a password manager marks as secret, and
+anything copied while `pass` is running, since `pass -c` doesn't mark its
+copies.
+
+Screenshots go to `~/Pictures/Screenshots` and the clipboard, with a preview
+in the notification. Esc while selecting cancels.
+
+`config/gammastep/config.ini` warms the screen from 19:00 to 20:30 and back
+from 6:00 to 7:00. The times are fixed, so it needs no location service.
+
+`config/autorandr/postswitch` restarts polybar and redraws the wallpaper
+whenever `autorandr` switches monitor layouts. Layouts are saved per machine
+and aren't tracked: set up each arrangement once, then run
+`autorandr --save laptop`, `autorandr --save docked` and so on. The package
+switches automatically when monitors are plugged in or out.
+
+The wallpaper at login is whatever `feh` last set, from `~/.fehbg`, so
+`feh --bg-scale <image>` changes it for good.
+
+xscreensaver stays in charge of idle: it runs the screensavers, and with
+"Lock screen after" turned on in `xscreensaver-settings`, it also locks when
+idle and when the laptop suspends or the lid closes. That lock uses
+xscreensaver's own unlock dialog; `lock.sh` is for `$mod+Escape`, the power
+menu and low-battery suspend.
+
 ## Terminal
 
 `st` is built from [morgenfriedel/st](https://github.com/morgenfriedel/st)

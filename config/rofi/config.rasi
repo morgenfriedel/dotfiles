@@ -1,0 +1,107 @@
+/* rofi 1.7 — a one-line launcher that sits inside polybar, between the
+ * workspaces and the metrics, over the window title. Reference: man rofi,
+ * man rofi-theme.
+ *
+ * launcher.sh measures the bar each time (bar-gap.py) and overrides the
+ * window's x-offset and width to cover the window title, from the "|"
+ * separator to the metrics. The position below is the fallback when it can't: placed from
+ * the right edge, where the metrics are a fixed width. Height matches
+ * polybar's bar/main: 32px tall, inset 5px from the top of the screen.
+ */
+
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    font: "Hack Nerd Font 10";
+    drun-display-format: "{name}";
+    display-drun: "run";
+    display-run: "cmd";
+    display-window: "win";
+    monitor: "-1";
+    matching: "fuzzy";
+    sort: true;
+    sorting-method: "fzf";
+    /* Defaults: Tab / Shift+Tab move through matches, Ctrl+Tab switches
+     * between apps, commands and windows. */
+}
+
+/* Start from nothing rather than rofi's default theme. */
+@theme "/dev/null"
+
+* {
+    bg:     #282A2E;
+    bg-alt: #373B41;
+    fg:     #C5C8C6;
+    gold:   #F0C674;
+    dim:    #707880;
+
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    location: northeast;
+    anchor: northeast;
+    x-offset: -760px;
+    y-offset: 8px;
+    width: 740px;
+    border-radius: 6px;
+    background-color: @bg-alt;
+}
+
+mainbox {
+    orientation: horizontal;
+    children: [ prompt, entry, listview ];
+    padding: 0 6px 0 10px;
+}
+
+prompt {
+    text-color: @gold;
+    padding: 4px 10px 5px 0;
+}
+
+entry {
+    expand: false;
+    width: 150px;
+    padding: 4px 0 5px;
+    placeholder: "search";
+    placeholder-color: @dim;
+    cursor: text;
+}
+
+listview {
+    layout: horizontal;
+    spacing: 2px;
+    lines: 100;
+    scrollbar: false;
+    fixed-height: false;
+}
+
+element {
+    padding: 4px 8px 3px;
+    spacing: 6px;
+    border: 0 0 2px;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+element selected {
+    text-color: @gold;
+    border-color: @gold;
+}
+
+element-icon {
+    size: 14px;
+    cursor: inherit;
+}
+
+element-text {
+    text-color: inherit;
+    vertical-align: 0.5;
+    cursor: inherit;
+}
+
+message, textbox {
+    padding: 5px 8px;
+}

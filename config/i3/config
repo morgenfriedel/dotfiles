@@ -26,8 +26,10 @@ bindsym $mod+Return exec $term
 # Kill focused window
 bindsym $mod+q kill
 
-# Dmenu
-bindsym $mod+d exec env PATH=$PATH dmenu_run -b -fn "Hack Nerd Font Mono:style=Regular:size=11" -nb "#282A2E" -nf "#C5C8C6" -sb "#F2CC83" -sf "#282A2E"
+# Launcher (rofi inside polybar; dmenu if rofi isn't installed): apps, and
+# any open window
+bindsym $mod+d exec --no-startup-id ~/.config/i3/scripts/launcher.sh apps
+bindsym $mod+w exec --no-startup-id ~/.config/i3/scripts/launcher.sh windows
 
 # Move focus
 bindsym $mod+h focus left
@@ -44,9 +46,9 @@ bindsym $mod+Shift+l move right
 # Fullscreen mode toggle
 bindsym $mod+f fullscreen toggle
 
-# Change container layout (stacked, tabbed)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
+# Change container layout. No keys for tabbed or stacked: they were too easy
+# to hit by accident. $mod+e also returns a tabbed or stacked container to
+# split.
 bindsym $mod+e layout toggle split
 
 # Toggle tiling / floating
@@ -116,9 +118,19 @@ bindsym $mod+shift+u resize shrink height 10 px or 5 ppt
 bindsym $mod+shift+i resize grow height 10 px or 5 ppt
 bindsym $mod+shift+o resize grow width 10 px or 5 ppt
 
-# Screenshots
-bindsym Print exec "maim | tee ~/Pictures/Screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png && notify-send 'Screenshot taken' 'Saved to ~/Pictures/Screenshots and clipboard'"
-bindsym $mod+Print exec "maim -s | tee ~/Pictures/Screenshots/screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png && notify-send 'Screenshot taken' 'Saved to ~/Pictures/Screenshots and clipboard'"
+# Screenshots: whole screen, or drag a region / click a window
+bindsym Print      exec --no-startup-id ~/.config/i3/scripts/screenshot.sh
+bindsym $mod+Print exec --no-startup-id ~/.config/i3/scripts/screenshot.sh select
+
+# Clipboard history (clipboard.py daemon runs from the startup list below)
+bindsym $mod+v exec --no-startup-id ~/.config/i3/scripts/clipboard.py menu
+
+# Dropdown terminal: $mod+` shows and hides it
+for_window [class="^dropdown$"] floating enable, resize set 60 ppt 55 ppt, move scratchpad, scratchpad show, move position center
+bindsym $mod+grave exec --no-startup-id ~/.config/i3/scripts/dropdown.sh
+
+# Night light (gammastep) off/on
+bindsym $mod+Shift+b exec --no-startup-id pkill -USR1 -x gammastep
 
 # Media and brightness keys. Holding a key repeats it.
 bindsym XF86AudioRaiseVolume  exec --no-startup-id ~/.config/i3/scripts/volume.sh up
@@ -144,8 +156,10 @@ bindsym $mod+Shift+c reload
 # Restart i3 inplace (preserves your layout/session)
 bindsym $mod+Shift+r restart
 
-# Exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-msg exit"
+# Lock, and the power menu (lock, suspend, log out, reboot, shut down; the
+# last three ask to confirm)
+bindsym $mod+Escape  exec --no-startup-id ~/.config/i3/scripts/lock.sh
+bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/power-menu.sh
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 # bar {
@@ -163,11 +177,14 @@ for_window [class="Galculator"] floating enable, move position center
 bindsym $mod+c exec --no-startup-id galculator
 
 # Starting External Scripts (placeholders, replace with actual commands or ensure scripts exist)
-exec --no-startup-id feh --bg-scale $HOME/Pictures/Wallpapers/faded-cityscape.png
+# ~/.fehbg restores whatever wallpaper feh set last.
+exec --no-startup-id sh -c '~/.fehbg || feh --bg-scale ~/Pictures/Wallpapers/faded-cityscape.png'
 exec --no-startup-id dunst
 exec --no-startup-id xscreensaver --no-splash
 exec --no-startup-id ~/.config/i3/scripts/battery-alert.sh
 exec --no-startup-id ~/.config/i3/scripts/workspace-icons.sh
+exec --no-startup-id ~/.config/i3/scripts/clipboard.py daemon
+exec --no-startup-id gammastep
 # exec_always runs on start and on $mod+Shift+r (restart), not on a plain
 # reload, so restart is the fix for a stuck or mispositioned polybar.
 exec_always --no-startup-id ~/.config/polybar/launch.sh

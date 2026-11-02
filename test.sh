@@ -37,10 +37,21 @@ head_ "Shell syntax"
 
 for f in "$DOTFILES"/home/.bash* "$DOTFILES"/home/.profile "$DOTFILES"/home/.xprofile \
          "$DOTFILES"/install.sh "$DOTFILES"/config/polybar/launch.sh \
-         "$DOTFILES"/config/i3/scripts/*.sh; do
+         "$DOTFILES"/config/i3/scripts/*.sh "$DOTFILES"/config/autorandr/postswitch; do
   [ -f "$f" ] || continue
   check "${f#$DOTFILES/}" bash -n "$f"
 done
+
+for f in "$DOTFILES"/config/i3/scripts/*.py; do
+  [ -f "$f" ] || continue
+  check "${f#$DOTFILES/}" python3 -c 'import ast, sys; ast.parse(open(sys.argv[1]).read())' "$f"
+done
+
+if command -v rofi >/dev/null 2>&1; then
+  check "config/rofi/config.rasi parses" rofi -config "$DOTFILES/config/rofi/config.rasi" -dump-theme
+else
+  skip "rofi theme" "rofi not installed"
+fi
 
 if command -v shellcheck >/dev/null 2>&1; then
   check "shellcheck install.sh" shellcheck -S error "$DOTFILES/install.sh"
@@ -67,10 +78,19 @@ else no "no symlinks created" "dry run created links"; fi
 head_ "install.sh into a sandbox HOME"
 
 mkdir -p "$SANDBOX/home"
-if out=$( HOME="$SANDBOX/home" XDG_CONFIG_HOME= "$DOTFILES/install.sh" --force 2>&1 ); then
+# --host: a fresh home has no ~/.dotfiles-host, and the "Which machine is
+# this?" prompt would wait on /dev/tty.
+if out=$( HOME="$SANDBOX/home" XDG_CONFIG_HOME= "$DOTFILES/install.sh" --force --host=personal 2>&1 </dev/null ); then
   ok "install.sh exits 0"
 else
   no "install.sh exits 0" "${out##*$'\n'}"
+fi
+
+if [ "$(readlink -f "$SANDBOX/home/.xprofile-host")" = "$DOTFILES/hosts/personal/xprofile" ] &&
+   [ "$(cat "$SANDBOX/home/.dotfiles-host" 2>/dev/null)" = personal ]; then
+  ok "--host links the overlay and remembers it"
+else
+  no "--host links the overlay and remembers it" "~/.xprofile-host or ~/.dotfiles-host wrong"
 fi
 
 for f in .bashrc .bash_aliases .bash_functions .bash_path .bash_prompt \
